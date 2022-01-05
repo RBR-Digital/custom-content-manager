@@ -149,7 +149,7 @@ const Header = ({
           onClick: () =>
             window
               .open(
-                `https://aflds.org/news/post${modifiedData.slug}/preview`,
+                `https://aflds.org/news/post/${modifiedData.slug}/preview`,
                 '_blank'
               )
               .focus(),
