@@ -134,8 +134,6 @@ const Header = ({
       ];
     }
 
-    console.log(modifiedData);
-
     if (currentContentTypeName === 'Frontline News' && modifiedData.slug) {
       headerActions = [
         {
