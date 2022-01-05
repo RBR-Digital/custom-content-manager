@@ -64,6 +64,7 @@
   "containers.Edit.submit": "Save",
   "containers.EditSettingsView.modal-form.edit-field": "Edit the field",
   "containers.EditView.add.new": "ADD NEW ENTRY",
+  "containers.Edit.preview": "Preview",
   "containers.EditView.components.missing.plural": "There is {count} missing components",
   "containers.EditView.components.missing.singular": "There is {count} missing component",
   "containers.EditView.notification.errors": "The form contains some errors",

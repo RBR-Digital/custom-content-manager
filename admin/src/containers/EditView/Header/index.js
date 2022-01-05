@@ -134,6 +134,24 @@ const Header = ({
       ];
     }
 
+    if (currentContentTypeName === 'Frontline News') {
+      headerActions = [
+        {
+          color: 'primary',
+          label: formatMessage({
+            id: modifiedData.slug, // id: getTrad('containers.Edit.preview'),
+          }),
+          type: 'button',
+          style: {
+            minWidth: 150,
+            fontWeight: 600,
+          },
+          onClick: () => push(addNewLink),
+        },
+        ...headerActions,
+      ];
+    }
+
     if (hasDraftAndPublish && canPublish) {
       const isPublished = !isEmpty(initialData.published_at);
       const isLoading = isPublished
