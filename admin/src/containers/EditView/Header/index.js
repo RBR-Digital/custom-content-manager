@@ -8,6 +8,7 @@ import { Text } from "@buffetjs/core";
 import { templateObject, ModalConfirm } from "strapi-helper-plugin";
 import { getTrad } from "../../../utils";
 import { connect, getDraftRelations, select } from "./utils";
+import { useLocation, useHistory } from "react-router";
 
 const primaryButtonObject = {
   color: "primary",
@@ -81,27 +82,17 @@ const Header = ({
     return count > 0;
   }, [modifiedData, layout, componentLayouts]);
 
+  const { push } = useHistory();
+  const { pathname } = useLocation();
+  let addNewLink = pathname.split("/");
+  addNewLink = addNewLink.pop();
+  addNewLink = addNewLink.join("/");
+
   const headerActions = useMemo(() => {
     let headerActions = [];
 
     if ((isCreatingEntry && canCreate) || (!isCreatingEntry && canUpdate)) {
       headerActions = [
-        {
-          disabled: !didChangeData,
-          color: "primary",
-          label: formatMessage({
-            id: "New Breaking News",
-          }),
-          isLoading: status === "submit-pending",
-          type: "button",
-          style: {
-            minWidth: 150,
-            fontWeight: 600,
-          },
-          onClick: () =>
-            (window.location.href =
-              "/admin/plugins/content-manager/collectionType/application::breaking-news.breaking-news/create"),
-        },
         {
           disabled: !didChangeData,
           color: "success",
@@ -115,6 +106,24 @@ const Header = ({
             fontWeight: 600,
           },
         },
+      ];
+    }
+
+    if (!didChangeData) {
+      headerActions = [
+        {
+          color: "primary",
+          label: formatMessage({
+            id: getTrad("containers.List.addAnEntry"),
+          }),
+          type: "button",
+          style: {
+            minWidth: 150,
+            fontWeight: 600,
+          },
+          onClick: () => push(addNewLink),
+        },
+        ...headerActions,
       ];
     }
 
