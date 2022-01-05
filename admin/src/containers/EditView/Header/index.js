@@ -85,8 +85,10 @@ const Header = ({
   const { push } = useHistory();
   const { pathname } = useLocation();
   let addNewLink = pathname.split("/");
-  addNewLink = addNewLink.pop();
+  addNewLink.pop();
+  addNewLink.push("create");
   addNewLink = addNewLink.join("/");
+  console.log(addNewLink);
 
   const headerActions = useMemo(() => {
     let headerActions = [];
