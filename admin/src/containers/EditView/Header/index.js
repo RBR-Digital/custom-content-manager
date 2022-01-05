@@ -134,12 +134,14 @@ const Header = ({
       ];
     }
 
+    console.log(modifiedData);
+
     if (currentContentTypeName === 'Frontline News') {
       headerActions = [
         {
           color: 'primary',
           label: formatMessage({
-            id: modifiedData.slug, // id: getTrad('containers.Edit.preview'),
+            id: getTrad('containers.Edit.preview'),
           }),
           type: 'button',
           style: {
