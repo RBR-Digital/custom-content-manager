@@ -88,6 +88,22 @@ const Header = ({
       headerActions = [
         {
           disabled: !didChangeData,
+          color: "primary",
+          label: formatMessage({
+            id: "New Breaking News",
+          }),
+          isLoading: status === "submit-pending",
+          type: "button",
+          style: {
+            minWidth: 150,
+            fontWeight: 600,
+          },
+          onClick: () =>
+            (window.location.href =
+              "/admin/plugins/content-manager/collectionType/application::breaking-news.breaking-news/create"),
+        },
+        {
+          disabled: !didChangeData,
           color: "success",
           label: formatMessage({
             id: getTrad("containers.Edit.submit"),

@@ -61,7 +61,7 @@
   "containers.Edit.reset": "Reset",
   "containers.Edit.returnList": "Return to list",
   "containers.Edit.seeDetails": "Details",
-  "containers.Edit.submit": "Save modifications",
+  "containers.Edit.submit": "Save",
   "containers.EditSettingsView.modal-form.edit-field": "Edit the field",
   "containers.EditView.add.new": "ADD NEW ENTRY",
   "containers.EditView.components.missing.plural": "There is {count} missing components",
