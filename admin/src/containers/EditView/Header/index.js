@@ -148,7 +148,8 @@ const Header = ({
             minWidth: 150,
             fontWeight: 600,
           },
-          onClick: () => push(addNewLink),
+          onClick: () =>
+            push(`aflds.org/news/post${modifiedData.slug}/preview`),
         },
         ...headerActions,
       ];
