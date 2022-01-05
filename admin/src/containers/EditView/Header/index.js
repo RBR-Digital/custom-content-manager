@@ -1,18 +1,18 @@
-import React, { memo, useCallback, useMemo, useRef, useState } from "react";
-import { useIntl } from "react-intl";
-import { Header as PluginHeader } from "@buffetjs/custom";
-import { get, isEqual, isEmpty, toString } from "lodash";
-import PropTypes from "prop-types";
-import isEqualFastCompare from "react-fast-compare";
-import { Text } from "@buffetjs/core";
-import { templateObject, ModalConfirm } from "strapi-helper-plugin";
-import { getTrad } from "../../../utils";
-import { connect, getDraftRelations, select } from "./utils";
-import { useLocation, useHistory } from "react-router";
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Header as PluginHeader } from '@buffetjs/custom';
+import { get, isEqual, isEmpty, toString } from 'lodash';
+import PropTypes from 'prop-types';
+import isEqualFastCompare from 'react-fast-compare';
+import { Text } from '@buffetjs/core';
+import { templateObject, ModalConfirm } from 'strapi-helper-plugin';
+import { getTrad } from '../../../utils';
+import { connect, getDraftRelations, select } from './utils';
+import { useLocation, useHistory } from 'react-router';
 
 const primaryButtonObject = {
-  color: "primary",
-  type: "button",
+  color: 'primary',
+  type: 'button',
   style: {
     minWidth: 150,
     fontWeight: 600,
@@ -42,12 +42,12 @@ const Header = ({
   const [shouldPublish, setShouldPublish] = useState(false);
 
   const currentContentTypeMainField = useMemo(
-    () => get(layout, ["settings", "mainField"], "id"),
+    () => get(layout, ['settings', 'mainField'], 'id'),
     [layout]
   );
 
   const currentContentTypeName = useMemo(
-    () => get(layout, ["info", "name"]),
+    () => get(layout, ['info', 'name']),
     [layout]
   );
 
@@ -62,7 +62,7 @@ const Header = ({
   /* eslint-disable indent */
   const entryHeaderTitle = isCreatingEntry
     ? formatMessage({
-        id: getTrad("containers.Edit.pluginHeader.title.new"),
+        id: getTrad('containers.Edit.pluginHeader.title.new'),
       })
     : templateObject({ mainField: currentContentTypeMainField }, initialData)
         .mainField;
@@ -84,10 +84,10 @@ const Header = ({
 
   const { push } = useHistory();
   const { pathname } = useLocation();
-  let addNewLink = pathname.split("/");
+  let addNewLink = pathname.split('/');
   addNewLink.pop();
-  addNewLink.push("create");
-  addNewLink = addNewLink.join("/");
+  addNewLink.push('create');
+  addNewLink = addNewLink.join('/');
   console.log(addNewLink);
 
   const headerActions = useMemo(() => {
@@ -97,12 +97,12 @@ const Header = ({
       headerActions = [
         {
           disabled: !didChangeData,
-          color: "success",
+          color: 'success',
           label: formatMessage({
-            id: getTrad("containers.Edit.submit"),
+            id: getTrad('containers.Edit.submit'),
           }),
-          isLoading: status === "submit-pending",
-          type: "submit",
+          isLoading: status === 'submit-pending',
+          type: 'submit',
           style: {
             minWidth: 150,
             fontWeight: 600,
@@ -114,11 +114,16 @@ const Header = ({
     if (!didChangeData) {
       headerActions = [
         {
-          color: "primary",
-          label: formatMessage({
-            id: getTrad("containers.List.addAnEntry"),
-          }),
-          type: "button",
+          color: 'primary',
+          label: formatMessage(
+            {
+              id: getTrad('containers.List.addAnEntry'),
+            },
+            {
+              entity: currentContentTypeName || 'Content Manager',
+            }
+          ),
+          type: 'button',
           style: {
             minWidth: 150,
             fontWeight: 600,
@@ -132,9 +137,9 @@ const Header = ({
     if (hasDraftAndPublish && canPublish) {
       const isPublished = !isEmpty(initialData.published_at);
       const isLoading = isPublished
-        ? status === "unpublish-pending"
-        : status === "publish-pending";
-      const labelID = isPublished ? "app.utils.unpublish" : "app.utils.publish";
+        ? status === 'unpublish-pending'
+        : status === 'publish-pending';
+      const labelID = isPublished ? 'app.utils.unpublish' : 'app.utils.publish';
       /* eslint-disable indent */
       const onClick = isPublished
         ? () => setWarningUnpublish(true)
@@ -179,7 +184,7 @@ const Header = ({
         label: toString(headerTitle),
       },
       content: `${formatMessageRef.current({
-        id: getTrad("api.id"),
+        id: getTrad('api.id'),
       })} : ${apiID}`,
       actions: headerActions,
     };
@@ -224,7 +229,7 @@ const Header = ({
     [onUnpublish, shouldUnpublish]
   );
 
-  const contentIdSuffix = draftRelationsCount > 1 ? "plural" : "singular";
+  const contentIdSuffix = draftRelationsCount > 1 ? 'plural' : 'singular';
 
   return (
     <>
@@ -235,32 +240,32 @@ const Header = ({
             isOpen={showWarningUnpublish}
             toggle={toggleWarningPublish}
             content={{
-              id: getTrad("popUpWarning.warning.unpublish"),
+              id: getTrad('popUpWarning.warning.unpublish'),
               values: {
                 br: () => <br />,
               },
             }}
-            type="xwarning"
+            type='xwarning'
             onConfirm={handleConfirmUnpublish}
             onClosed={handleCloseModalUnpublish}
           >
             <Text>
               {formatMessage({
-                id: getTrad("popUpWarning.warning.unpublish-question"),
+                id: getTrad('popUpWarning.warning.unpublish-question'),
               })}
             </Text>
           </ModalConfirm>
           <ModalConfirm
             confirmButtonLabel={{
               id: getTrad(
-                "popUpwarning.warning.has-draft-relations.button-confirm"
+                'popUpwarning.warning.has-draft-relations.button-confirm'
               ),
             }}
             isOpen={showWarningDraftRelation}
             toggle={toggleWarningDraftRelation}
             onClosed={handleCloseModalPublish}
             onConfirm={handleConfirmPublish}
-            type="success"
+            type='success'
             content={{
               id: getTrad(
                 `popUpwarning.warning.has-draft-relations.message.${contentIdSuffix}`
@@ -268,7 +273,7 @@ const Header = ({
               values: {
                 count: draftRelationsCount,
                 b: (chunks) => (
-                  <Text as="span" fontWeight="bold">
+                  <Text as='span' fontWeight='bold'>
                     {chunks}
                   </Text>
                 ),
@@ -278,7 +283,7 @@ const Header = ({
           >
             <Text>
               {formatMessage({
-                id: getTrad("popUpWarning.warning.publish-question"),
+                id: getTrad('popUpWarning.warning.publish-question'),
               })}
             </Text>
           </ModalConfirm>
