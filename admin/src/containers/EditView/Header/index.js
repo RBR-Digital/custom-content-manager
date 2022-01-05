@@ -136,7 +136,7 @@ const Header = ({
 
     console.log(modifiedData);
 
-    if (currentContentTypeName === 'Frontline News') {
+    if (currentContentTypeName === 'Frontline News' && modifiedData.slug) {
       headerActions = [
         {
           color: 'primary',
@@ -149,7 +149,12 @@ const Header = ({
             fontWeight: 600,
           },
           onClick: () =>
-            push(`aflds.org/news/post${modifiedData.slug}/preview`),
+            window
+              .open(
+                `https://aflds.org/news/post${modifiedData.slug}/preview`,
+                '_blank'
+              )
+              .focus(),
         },
         ...headerActions,
       ];
