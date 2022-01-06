@@ -110,7 +110,7 @@ const Header = ({
       ];
     }
 
-    if (initialData.slug) {
+    if (initialData.id) {
       headerActions = [
         {
           color: 'primary',
