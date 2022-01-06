@@ -88,7 +88,6 @@ const Header = ({
   addNewLink.pop();
   addNewLink.push('create');
   addNewLink = addNewLink.join('/');
-  console.log(addNewLink);
 
   const headerActions = useMemo(() => {
     let headerActions = [];
@@ -111,7 +110,7 @@ const Header = ({
       ];
     }
 
-    if (!didChangeData) {
+    if (initialData) {
       headerActions = [
         {
           color: 'primary',
