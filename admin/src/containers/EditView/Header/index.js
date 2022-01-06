@@ -110,7 +110,7 @@ const Header = ({
       ];
     }
 
-    if (hasDraftAndPublish && canPublish) {
+    if (initialData.slug) {
       headerActions = [
         {
           color: 'primary',
