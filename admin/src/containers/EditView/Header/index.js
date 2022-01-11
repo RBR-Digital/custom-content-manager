@@ -157,6 +157,7 @@ const Header = ({
       ];
     }
 
+    console.log(currentContentTypeName, modifiedData);
     if (
       currentContentTypeName === 'Frontline News Espanõls' &&
       modifiedData.slug
