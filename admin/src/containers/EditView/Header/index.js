@@ -157,6 +157,33 @@ const Header = ({
       ];
     }
 
+    if (
+      currentContentTypeName === 'Frontline News Espanõls' &&
+      modifiedData.slug
+    ) {
+      headerActions = [
+        {
+          color: 'primary',
+          label: formatMessage({
+            id: getTrad('containers.Edit.preview'),
+          }),
+          type: 'button',
+          style: {
+            minWidth: 150,
+            fontWeight: 600,
+          },
+          onClick: () =>
+            window
+              .open(
+                `https://aflds.org/espanol/post/${modifiedData.slug}/preview`,
+                '_blank'
+              )
+              .focus(),
+        },
+        ...headerActions,
+      ];
+    }
+
     if (hasDraftAndPublish && canPublish) {
       const isPublished = !isEmpty(initialData.published_at);
       const isLoading = isPublished
