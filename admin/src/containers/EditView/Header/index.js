@@ -184,6 +184,7 @@ const Header = ({
       ];
     }
 
+    console.log(currentContentTypeName);
     if (
       currentContentTypeName === 'Frontline News Português' &&
       modifiedData.slug
