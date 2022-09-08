@@ -45,11 +45,11 @@ module.exports = {
   },
 
   find(params, model, populate) {
-    return strapi.entityService.find({ params, populate }, { model });
+    return strapi.entityService.find({ params, populate: [] }, { model });
   },
 
   findPage(params, model, populate) {
-    return strapi.entityService.findPage({ params, populate }, { model });
+    return strapi.entityService.findPage({ params, populate: [] }, { model });
   },
 
   findWithRelationCounts(params, model, populate) {
