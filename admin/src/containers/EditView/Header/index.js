@@ -8,6 +8,7 @@ import { Text } from '@buffetjs/core';
 import { templateObject, ModalConfirm } from 'strapi-helper-plugin';
 import { getTrad } from '../../../utils';
 import { connect, getDraftRelations, select } from './utils';
+import { useLocation, useHistory } from 'react-router';
 
 const primaryButtonObject = {
   color: 'primary',
@@ -35,18 +36,26 @@ const Header = ({
   const { formatMessage } = useIntl();
   const formatMessageRef = useRef(formatMessage);
   const [draftRelationsCount, setDraftRelationsCount] = useState(0);
-  const [showWarningDraftRelation, setShowWarningDraftRelation] = useState(false);
+  const [showWarningDraftRelation, setShowWarningDraftRelation] =
+    useState(false);
   const [shouldUnpublish, setShouldUnpublish] = useState(false);
   const [shouldPublish, setShouldPublish] = useState(false);
 
-  const currentContentTypeMainField = useMemo(() => get(layout, ['settings', 'mainField'], 'id'), [
-    layout,
-  ]);
+  const currentContentTypeMainField = useMemo(
+    () => get(layout, ['settings', 'mainField'], 'id'),
+    [layout]
+  );
 
-  const currentContentTypeName = useMemo(() => get(layout, ['info', 'name']), [layout]);
+  const currentContentTypeName = useMemo(
+    () => get(layout, ['info', 'name']),
+    [layout]
+  );
 
   const didChangeData = useMemo(() => {
-    return !isEqual(initialData, modifiedData) || (isCreatingEntry && !isEmpty(modifiedData));
+    return (
+      !isEqual(initialData, modifiedData) ||
+      (isCreatingEntry && !isEmpty(modifiedData))
+    );
   }, [initialData, isCreatingEntry, modifiedData]);
   const apiID = useMemo(() => layout.apiID, [layout.apiID]);
 
@@ -55,7 +64,8 @@ const Header = ({
     ? formatMessage({
         id: getTrad('containers.Edit.pluginHeader.title.new'),
       })
-    : templateObject({ mainField: currentContentTypeMainField }, initialData).mainField;
+    : templateObject({ mainField: currentContentTypeMainField }, initialData)
+        .mainField;
   /* eslint-enable indent */
 
   const headerTitle = useMemo(() => {
@@ -71,6 +81,13 @@ const Header = ({
 
     return count > 0;
   }, [modifiedData, layout, componentLayouts]);
+
+  const { push } = useHistory();
+  const { pathname } = useLocation();
+  let addNewLink = pathname.split('/');
+  addNewLink.pop();
+  addNewLink.push('create');
+  addNewLink = addNewLink.join('/');
 
   const headerActions = useMemo(() => {
     let headerActions = [];
@@ -93,14 +110,118 @@ const Header = ({
       ];
     }
 
+    if (initialData.id) {
+      headerActions = [
+        {
+          color: 'primary',
+          label: formatMessage(
+            {
+              id: getTrad('containers.List.addAnEntry'),
+            },
+            {
+              entity: currentContentTypeName || 'Content Manager',
+            }
+          ),
+          type: 'button',
+          style: {
+            minWidth: 150,
+            fontWeight: 600,
+          },
+          onClick: () => push(addNewLink),
+        },
+        ...headerActions,
+      ];
+    }
+
+    if (currentContentTypeName === 'Frontline News' && modifiedData.slug) {
+      headerActions = [
+        {
+          color: 'primary',
+          label: formatMessage({
+            id: getTrad('containers.Edit.preview'),
+          }),
+          type: 'button',
+          style: {
+            minWidth: 150,
+            fontWeight: 600,
+          },
+          onClick: () =>
+            window
+              .open(
+                `https://aflds.org/news/post/${modifiedData.slug}/preview`,
+                '_blank'
+              )
+              .focus(),
+        },
+        ...headerActions,
+      ];
+    }
+
+    if (
+      currentContentTypeName === 'Frontline News Espanõl' &&
+      modifiedData.slug
+    ) {
+      headerActions = [
+        {
+          color: 'primary',
+          label: formatMessage({
+            id: getTrad('containers.Edit.preview'),
+          }),
+          type: 'button',
+          style: {
+            minWidth: 150,
+            fontWeight: 600,
+          },
+          onClick: () =>
+            window
+              .open(
+                `https://aflds.org/espanol/post/${modifiedData.slug}/preview`,
+                '_blank'
+              )
+              .focus(),
+        },
+        ...headerActions,
+      ];
+    }
+
+    console.log(currentContentTypeName);
+    if (
+      currentContentTypeName === 'Frontline News Português' &&
+      modifiedData.slug
+    ) {
+      headerActions = [
+        {
+          color: 'primary',
+          label: formatMessage({
+            id: getTrad('containers.Edit.preview'),
+          }),
+          type: 'button',
+          style: {
+            minWidth: 150,
+            fontWeight: 600,
+          },
+          onClick: () =>
+            window
+              .open(
+                `https://aflds.org/portugues/post/${modifiedData.slug}/preview`,
+                '_blank'
+              )
+              .focus(),
+        },
+        ...headerActions,
+      ];
+    }
+
     if (hasDraftAndPublish && canPublish) {
       const isPublished = !isEmpty(initialData.published_at);
-      const isLoading = isPublished ? status === 'unpublish-pending' : status === 'publish-pending';
+      const isLoading = isPublished
+        ? status === 'unpublish-pending'
+        : status === 'publish-pending';
       const labelID = isPublished ? 'app.utils.unpublish' : 'app.utils.publish';
       /* eslint-disable indent */
       const onClick = isPublished
         ? () => setWarningUnpublish(true)
-        : e => {
+        : (e) => {
             if (!checkIfHasDraftRelations()) {
               onPublish(e);
             } else {
@@ -140,15 +261,18 @@ const Header = ({
       title: {
         label: toString(headerTitle),
       },
-      content: `${formatMessageRef.current({ id: getTrad('api.id') })} : ${apiID}`,
+      content: `${formatMessageRef.current({
+        id: getTrad('api.id'),
+      })} : ${apiID}`,
       actions: headerActions,
     };
   }, [headerActions, headerTitle, apiID]);
 
-  const toggleWarningPublish = () => setWarningUnpublish(prevState => !prevState);
+  const toggleWarningPublish = () =>
+    setWarningUnpublish((prevState) => !prevState);
 
   const toggleWarningDraftRelation = useCallback(() => {
-    setShowWarningDraftRelation(prev => !prev);
+    setShowWarningDraftRelation((prev) => !prev);
   }, []);
 
   const handleConfirmPublish = useCallback(() => {
@@ -162,7 +286,7 @@ const Header = ({
   }, []);
 
   const handleCloseModalPublish = useCallback(
-    e => {
+    (e) => {
       if (shouldPublish) {
         onPublish(e);
       }
@@ -173,7 +297,7 @@ const Header = ({
   );
 
   const handleCloseModalUnpublish = useCallback(
-    e => {
+    (e) => {
       if (shouldUnpublish) {
         onUnpublish(e);
       }
@@ -199,27 +323,35 @@ const Header = ({
                 br: () => <br />,
               },
             }}
-            type="xwarning"
+            type='xwarning'
             onConfirm={handleConfirmUnpublish}
             onClosed={handleCloseModalUnpublish}
           >
-            <Text>{formatMessage({ id: getTrad('popUpWarning.warning.unpublish-question') })}</Text>
+            <Text>
+              {formatMessage({
+                id: getTrad('popUpWarning.warning.unpublish-question'),
+              })}
+            </Text>
           </ModalConfirm>
           <ModalConfirm
             confirmButtonLabel={{
-              id: getTrad('popUpwarning.warning.has-draft-relations.button-confirm'),
+              id: getTrad(
+                'popUpwarning.warning.has-draft-relations.button-confirm'
+              ),
             }}
             isOpen={showWarningDraftRelation}
             toggle={toggleWarningDraftRelation}
             onClosed={handleCloseModalPublish}
             onConfirm={handleConfirmPublish}
-            type="success"
+            type='success'
             content={{
-              id: getTrad(`popUpwarning.warning.has-draft-relations.message.${contentIdSuffix}`),
+              id: getTrad(
+                `popUpwarning.warning.has-draft-relations.message.${contentIdSuffix}`
+              ),
               values: {
                 count: draftRelationsCount,
-                b: chunks => (
-                  <Text as="span" fontWeight="bold">
+                b: (chunks) => (
+                  <Text as='span' fontWeight='bold'>
                     {chunks}
                   </Text>
                 ),
@@ -227,7 +359,11 @@ const Header = ({
               },
             }}
           >
-            <Text>{formatMessage({ id: getTrad('popUpWarning.warning.publish-question') })}</Text>
+            <Text>
+              {formatMessage({
+                id: getTrad('popUpWarning.warning.publish-question'),
+              })}
+            </Text>
           </ModalConfirm>
         </>
       )}

@@ -61,6 +61,7 @@
   "containers.Edit.returnList": "Regresar a la lista",
   "containers.Edit.seeDetails": "Detalles",
   "containers.Edit.submit": "Guardar",
+  "containers.Edit.preview": "Previa",
   "containers.EditSettingsView.modal-form.edit-field": "Edita el campo",
   "containers.EditView.add.new": "AÑADIR NUEVA ENTRADA",
   "containers.EditView.components.missing.plural": "Faltan {count} componentes",

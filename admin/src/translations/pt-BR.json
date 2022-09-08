@@ -28,6 +28,7 @@
   "containers.Edit.returnList": "Retornar à lista",
   "containers.Edit.seeDetails": "Detalhes",
   "containers.Edit.submit": "Salvar",
+  "containers.Edit.preview": "Prévia",
   "containers.Home.introduction": "Para editar seus registros, acesse o link específico no menu à esquerda. Esta extensão não permite editar configurações, ainda está em desenvolvimento.",
   "containers.Home.pluginHeaderDescription": "Gerencie seus registros através de uma interface poderosa e elegante.",
   "containers.Home.pluginHeaderTitle": "Gestão de conteúdos",
