@@ -52,8 +52,8 @@ module.exports = {
     return strapi.entityService.findPage({ params, populate }, { model });
   },
 
-  findWithRelationCounts(params, model, _populate) {
-    return strapi.entityService.findWithRelationCounts({ params, populate: [] }, { model });
+  findWithRelationCounts(params, model, populate) {
+    return strapi.entityService.findWithRelationCounts({ params, populate }, { model });
   },
 
   search(params, model, populate) {
@@ -64,8 +64,8 @@ module.exports = {
     return strapi.entityService.searchPage({ params, populate }, { model });
   },
 
-  searchWithRelationCounts(params, model, _populate) {
-    return strapi.entityService.searchWithRelationCounts({ params, populate: [] }, { model });
+  searchWithRelationCounts(params, model, populate) {
+    return strapi.entityService.searchWithRelationCounts({ params, populate }, { model });
   },
 
   count(params, model) {
