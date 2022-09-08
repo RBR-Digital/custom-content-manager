@@ -44,12 +44,12 @@ module.exports = {
     return assoc(`${CREATED_BY_ATTRIBUTE}.roles`, roles, entity);
   },
 
-  find(params, model, populate) {
+  find(params, model, _populate) {
     return strapi.entityService.find({ params, populate: [] }, { model });
   },
 
   findPage(params, model, populate) {
-    return strapi.entityService.findPage({ params, populate: [] }, { model });
+    return strapi.entityService.findPage({ params, populate }, { model });
   },
 
   findWithRelationCounts(params, model, populate) {
@@ -72,8 +72,8 @@ module.exports = {
     return strapi.entityService.count({ params }, { model });
   },
 
-  async findOne(id, model, populate) {
-    return strapi.entityService.findOne({ params: { id }, populate }, { model });
+  async findOne(id, model, _populate) {
+    return strapi.entityService.findOne({ params: { id }, populate: [] }, { model });
   },
 
   async findOneWithCreatorRoles(id, model, populate) {
